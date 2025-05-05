@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <div class="header-title">
+      <img src="Imagenes/logo.png" alt="Logo" class="header-logo">
+      <h1>Mi Tienda</h1>
+    </div>
+    <nav>
+      <a href="index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <section class="welcome-content">
+    <div class="login-form">
+      <h2>Iniciar Sesión</h2>
+      
+      <?php if (isset($_SESSION['error_login'])): ?>
+        <div class="error-message">
+          <?php 
+            echo $_SESSION['error_login'];
+            unset($_SESSION['error_login']); 
+          ?>
+        </div>
+      <?php endif; ?>
+      
+      <form action="login.php" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+        
+        <button type="submit">Ingresar</button>
+      </form>
+
+      <p style="margin-top: 1rem;">¿No tienes cuenta? 
+        <a href="crearCuenta.php" class="button">Crear una</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Mi Tienda. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>

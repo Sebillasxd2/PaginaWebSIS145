@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tienda Gamer SIS145</title>
+    <link rel="stylesheet" href="style.css">
+ 
+</head>
+<body>
+
+    <!-- Encabezado con menú desplegable -->
+    <header>
+        <div class="header-title">
+            <img src="Imagenes/logo.png" alt="Logo Gamer SIS145" class="header-logo">
+            <h1>Gamer SIS145</h1>
+        </div>
+        <nav>
+            <a href="#inicio" class="nav-link">Inicio</a>
+            
+            <div class="dropdown">
+                <a href="#tienda" class="nav-link">Tienda</a>
+                <div class="dropdown-content">
+                    <a href="#tienda" onclick="cargarProductos('Audio')">Audio</a>
+                    <a href="#tienda" onclick="cargarProductos('Periféricos')">Periféricos</a>
+                    <a href="#tienda" onclick="cargarProductos('Cámaras')">Cámaras</a>
+                    <a href="#tienda" onclick="cargarProductos()">Todos los Productos</a>
+                </div>
+            </div>
+            <a href="#ubicacion" class="nav-link">Ubicacion</a>
+            <a href="#about" class="nav-link">Sobre Nosotros</a>
+            <a href="#contacto" class="nav-link">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- Slider en la sección de inicio -->
+    <section id="inicio">
+        <div class="slider">
+
+            <!-- Slide 1: Bienvenida -->
+            <div class="slide active" style="background-image: url('Imagenes/inicio.jpg');">
+                <div class="slide-content">
+                    <h2>BIENVENIDO A GAMER SIS145</h2>
+                    <p>Ofrecemos los mejores mouses, teclados, cámaras y micrófonos para la comunidad gamer. Tecnología de alto rendimiento al alcance de todos los jugadores.</p>
+                </div>
+            </div>
+            
+            <!-- Slide 2: Producto destacado -->
+            <div class="slide"style="background-image: url('Imagenes/producto.jpg');">
+                <div class="slide-content">
+                    <h2>PRODUCTO DESTACADO</h2>
+                    <div class="featured-product">
+                        <img src="Imagenes/mouse-gamer.png" alt="Mouse Gamer HyperX" class="featured-product-image">
+                        <div class="featured-product-info">
+                            <span class="best-seller-badge">MÁS VENDIDO</span>
+                            <h3>Mouse Gamer HyperX Pulsefire Dart</h3>
+                            <p class="description">El HyperX Pulsefire Dart™ es un mouse inalámbrico para gaming con tecnología Qi para carga inalámbrica, sensor PixArt 3389 y switches Omron.</p>
+                            <p class="price">$99.99</p>
+                            <a href="#tienda" class="button">Ver en Tienda</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Horarios de atención -->
+            <div class="slide" style="background-image: url('Imagenes/horarios.jpg');">
+                <div class="slide-content">
+                    <h2>HORARIOS DE ATENCIÓN</h2>
+                    <table class="opening-hours-table">
+                        <tr>
+                            <th>Día</th>
+                            <th>Horario</th>
+                        </tr>
+                        <tr>
+                            <td>Lunes a Viernes</td>
+                            <td>9:00 - 18:00</td>
+                        </tr>
+                        <tr>
+                            <td>Sábados</td>
+                            <td>10:00 - 14:00</td>
+                        </tr>
+                        <tr>
+                            <td>Domingos</td>
+                            <td>Cerrado</td>
+                        </tr>
+                    </table>
+                    <p style="margin-top: 1.5rem;">¡Estamos para servirte! Contáctanos en nuestros horarios de atención.</p>
+                </div>
+            </div>
+            
+            <div class="slide-buttons">
+                <button class="slide-button active" onclick="goToSlide(0)"></button>
+                <button class="slide-button" onclick="goToSlide(1)"></button>
+                <button class="slide-button" onclick="goToSlide(2)"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Tienda -->
+    <section id="tienda">
+        <h2>Nuestros productos disponibles</h2>
+        <div id="container"></div>
+    </section>
+    
+    <!-- Sección de Ubicación -->
+<section id="ubicacion">
+    <h2>¿Dónde estamos ubicados?</h2>
+    <p>Visítanos en nuestra tienda física ubicada en el centro de Sucre. ¡Estaremos felices de atenderte!</p>
+    <img src
+    <div class="map-container" style="text-align: center;">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.031675442472!2d-65.26196132500078!3d-19.0343192469517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93fbcf0cf00a94cb%3A0x889dd97b67be89dc!2sSucre%2C%20Bolivia!5e0!3m2!1ses!2sbo!4v1714504896941!5m2!1ses!2sbo" 
+            width="100%" 
+            height="400" 
+            style="border:0; border-radius: 12px;" 
+            allowfullscreen="" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</section>
+
+
+    <!-- Sección Acerca de Nosotros -->
+    <section id="about" class="about">
+        <h2>Acerca de Nosotros</h2>
+        <p>Gamer SIS145 es una empresa boliviana comprometida con ofrecer lo mejor en tecnología gamer. Ya seas un jugador casual o competitivo, tenemos el equipo perfecto para mejorar tu experiencia de juego. ¡La pasión gamer nos une!</p>
+        
+        <!-- Nuestra Historia -->
+        <div class="history">
+            <h3>Nuestra Historia</h3>
+            <p>Fundada en 2025 en Bolivia, Gamer SIS145 nació de la pasión compartida por los videojuegos y la tecnología de última generación. Lo que comenzó como un pequeño proyecto entre amigos gamers, hoy se ha convertido en un referente de la industria gaming nacional, ofreciendo productos de calidad y asesoramiento especializado.</p>
+        </div>
+        
+        <!-- Nuestros Logros -->
+        <div class="achievements">
+            <h3>Nuestros Logros</h3>
+            <div class="achievements-container">
+                <div class="achievement-card">
+                    <h4>500+</h4>
+                    <p>Clientes Satisfechos</p>
+                </div>
+                <div class="achievement-card">
+                    <h4>9</h4>
+                    <p>Departamentos con Envíos</p>
+                </div>
+                <div class="achievement-card">
+                    <h4>100%</h4>
+                    <p>Productos Garantizados</p>
+                </div>
+                <div class="achievement-card">
+                    <h4>24/7</h4>
+                    <p>Soporte al Cliente</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Horarios de Atención -->
+        <div class="opening-hours">
+            <h3>Horarios de Atención</h3>
+            <table class="opening-hours-table">
+                <tr>
+                    <th>Día</th>
+                    <th>Horario</th>
+                </tr>
+                <tr>
+                    <td>Lunes a Viernes</td>
+                    <td>9:00 - 18:00</td>
+                </tr>
+                <tr>
+                    <td>Sábados</td>
+                    <td>10:00 - 14:00</td>
+                </tr>
+                <tr>
+                    <td>Domingos</td>
+                    <td>Cerrado</td>
+                </tr>
+            </table>
+            <p style="margin-top: 1.5rem; text-align: center;">Durante horarios fuera de atención, puedes contactarnos por WhatsApp y te responderemos lo antes posible.</p>
+        </div>
+        
+        <!-- Marcas con las que trabajamos -->
+        <div class="brands">
+            <h3>Trabajamos con las Mejores Marcas</h3>
+            <p>Ofrecemos productos de las marcas líderes en tecnología gaming mundial</p>
+            <div class="brand-logos">
+                <img src="Imagenes/logitech-logo.png" alt="Logitech" class="brand-logo">
+                <img src="Imagenes/hyperx-logo.png" alt="HyperX" class="brand-logo">
+                <img src="Imagenes/blue-yeti-logo.png" alt="Blue Yeti" class="brand-logo">
+                <img src="Imagenes/glorious-logo.png" alt="Glorious PC Gaming" class="brand-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer id="contacto">
+        <p><strong>Contáctanos por WhatsApp:</strong></p>
+        <p>
+            <a href="https://wa.me/59177124398" target="_blank">77124398</a> |
+            <a href="https://wa.me/59175794549" target="_blank">75794549</a> |
+            <a href="https://wa.me/59168652664" target="_blank">68652664</a>
+        </p>
+        <p>&copy; 2025 Gamer SIS145 - Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Función para cargar productos
+        function cargarProductos(categoria = '') {
+            let url = 'index.php';
+            if (categoria) {
+                url += '?categoria=' + encodeURIComponent(categoria);
+            }
+    
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error de red");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('container').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error al cargar productos:', error);
+                    document.getElementById('container').innerHTML = '<p>Hubo un error cargando los productos.</p>';
+                });
+        }
+    
+        // Variables globales del slider
+        let currentSlide = 0;
+        let slideInterval;
+        const slides = document.querySelectorAll('.slide');
+        const buttons = document.querySelectorAll('.slide-button');
+    
+        // Cargar productos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarProductos();
+            startSlider();
+        });
+    
+        // Filtrar productos por categoría
+        document.getElementById('categoriaSelect').addEventListener('change', function() {
+            var categoriaSeleccionada = this.value;
+            cargarProductos(categoriaSeleccionada);
+        });
+        
+        // Funciones del slider
+        function startSlider() {
+            // Detener cualquier intervalo existente primero
+            stopSlider();
+            // Iniciar nuevo intervalo
+            slideInterval = setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+    
+        function stopSlider() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+        }
+    
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % slides.length);
+        }
+    
+        function prevSlide() {
+            goToSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+    
+        function goToSlide(index) {
+            // Detener el auto-avance temporalmente
+            stopSlider();
+            
+            // Cambiar slide actual
+            slides[currentSlide].classList.remove('active');
+            buttons[currentSlide].classList.remove('active');
+            
+            currentSlide = index;
+            
+            slides[currentSlide].classList.add('active');
+            buttons[currentSlide].classList.add('active');
+            
+            // Reiniciar el auto-avance después de 5 segundos
+            setTimeout(startSlider, 5000);
+        }
+    </script>
+</body>
+</html>

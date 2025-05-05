@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Producto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        label {
+            margin-top: 1rem;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Agregar Nuevo Producto</h1>
+    <form action="agregarProducto.php" method="POST" enctype="multipart/form-data">
+        <label for="nombre">Nombre del Producto</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" required></textarea>
+
+        <label for="precio">Precio</label>
+        <input type="number" id="precio" name="precio" required step="0.01">
+
+        <label for="stock">Stock</label>
+        <input type="number" id="stock" name="stock" required>
+
+        <label for="categoria">Categoría</label>
+        <select id="categoria" name="categoria" required>
+            <option value="Audio">Audio</option>
+            <option value="Periféricos">Periféricos</option>
+            <option value="Cámaras">Cámaras</option>
+        </select>
+
+        <label for="imagen">Imagen</label>
+        <input type="file" id="imagen" name="imagen" required>
+
+        <button type="submit" class="button">Agregar Producto</button>
+    </form>
+</body>
+</html>
