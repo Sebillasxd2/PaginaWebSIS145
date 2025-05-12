@@ -14,6 +14,7 @@
       } else {
           echo '<div class="mensaje-flotante" style="background-color: #f44336;">Error al eliminar el producto</div>';
       }
+
       
      
       echo '<script>
@@ -25,6 +26,13 @@
               }, 3000);
             </script>';
   }
+  // Mensajes de actualización
+if (isset($_GET['actualizado']) && $_GET['actualizado'] === '1') {
+  echo '<div class="mensaje-flotante">Producto actualizado correctamente</div>';
+}
+if (isset($_GET['usuario_actualizado']) && $_GET['usuario_actualizado'] === '1') {
+  echo '<div class="mensaje-flotante">Usuario actualizado correctamente</div>';
+}
   ?>
   
   <header>
@@ -79,6 +87,11 @@
                   echo "Stock: " . $producto['stock'] . "<br>";
                   echo "Categoría: " . htmlspecialchars($producto['categoria']) . "<br>";
                   echo "<img src='Imagenes/" . htmlspecialchars($producto['imagen']) . "' width='100'><br>";
+
+                  echo "<form action='editarProducto.php' method='get' style='display:inline;'>";
+                  echo "<input type='hidden' name='id' value='{$producto['id']}'>";
+                  echo "<button type='submit'>Editar</button>";
+                  echo "</form> ";
 
                   echo "<form action='eliminarProducto.php' method='post' onsubmit=\"return confirm('¿Estás seguro de eliminar este producto?');\">";
                   echo "<input type='hidden' name='id' value='" . $producto['id'] . "'>";
@@ -148,7 +161,12 @@
             echo "<td>" . htmlspecialchars($usuario['nombre']) . "</td>";
             echo "<td>" . htmlspecialchars($usuario['rol']) . "</td>";
             echo "<td>
-                    <form action='eliminarUsuario.php' method='post' onsubmit=\"return confirm('¿Eliminar este usuario?');\">
+                    <form action='editarUsuarios.php' method='get' style='display:inline;'>
+                        <input type='hidden' name='id' value='" . $usuario['id'] . "'>
+                        <button type='submit'>Editar</button>
+                    </form>
+                    
+                    <form action='eliminarUsuarios.php' method='post' onsubmit=\"return confirm('¿Eliminar este usuario?');\">
                         <input type='hidden' name='id' value='" . $usuario['id'] . "'>
                         <button type='submit'>Eliminar</button>
                     </form>

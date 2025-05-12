@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Tienda Gamer SIS145</title>
     <link rel="stylesheet" href="style.css">
- 
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -20,10 +20,10 @@
             <div class="dropdown">
                 <a href="#tienda" class="nav-link">Tienda</a>
                 <div class="dropdown-content">
-                    <a href="#tienda" onclick="cargarProductos('Audio')">Audio</a>
-                    <a href="#tienda" onclick="cargarProductos('Periféricos')">Periféricos</a>
-                    <a href="#tienda" onclick="cargarProductos('Cámaras')">Cámaras</a>
-                    <a href="#tienda" onclick="cargarProductos()">Todos los Productos</a>
+                    <a href="#tienda" data-categoria="Audio">Audio</a>
+                    <a href="#tienda" data-categoria="Periféricos">Periféricos</a>
+                    <a href="#tienda" data-categoria="Cámaras">Cámaras</a>
+                    <a href="#tienda" data-categoria="">Todos los Productos</a>
                 </div>
             </div>
             <a href="#ubicacion" class="nav-link">Ubicacion</a>
@@ -35,7 +35,6 @@
     <!-- Slider en la sección de inicio -->
     <section id="inicio">
         <div class="slider">
-
             <!-- Slide 1: Bienvenida -->
             <div class="slide active" style="background-image: url('Imagenes/inicio.jpg');">
                 <div class="slide-content">
@@ -45,7 +44,7 @@
             </div>
             
             <!-- Slide 2: Producto destacado -->
-            <div class="slide"style="background-image: url('Imagenes/producto.jpg');">
+            <div class="slide" style="background-image: url('Imagenes/producto.jpg');">
                 <div class="slide-content">
                     <h2>PRODUCTO DESTACADO</h2>
                     <div class="featured-product">
@@ -88,11 +87,36 @@
             </div>
             
             <div class="slide-buttons">
-                <button class="slide-button active" onclick="goToSlide(0)"></button>
-                <button class="slide-button" onclick="goToSlide(1)"></button>
-                <button class="slide-button" onclick="goToSlide(2)"></button>
+                <button class="slide-button active" data-slide="0"></button>
+                <button class="slide-button" data-slide="1"></button>
+                <button class="slide-button" data-slide="2"></button>
             </div>
         </div>
+    </section>
+
+    <!-- Sección del Carrito -->
+    <section id="carrito">
+        <h2>Tu Carrito de Compras</h2>
+        <table id="tabla-carrito">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="contenido-carrito">
+                <tr>
+                    <td colspan="5">Tu carrito está vacío</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="total-carrito">
+            <p>Total: $<span id="total-amount">0.00</span></p>
+        </div>
+        <button id="vaciar-carrito">Vaciar Carrito</button>
     </section>
 
     <!-- Sección de Tienda -->
@@ -100,25 +124,22 @@
         <h2>Nuestros productos disponibles</h2>
         <div id="container"></div>
     </section>
-    
-    <!-- Sección de Ubicación -->
-<section id="ubicacion">
-    <h2>¿Dónde estamos ubicados?</h2>
-    <p>Visítanos en nuestra tienda física ubicada en el centro de Sucre. ¡Estaremos felices de atenderte!</p>
-    <img src
-    <div class="map-container" style="text-align: center;">
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.031675442472!2d-65.26196132500078!3d-19.0343192469517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93fbcf0cf00a94cb%3A0x889dd97b67be89dc!2sSucre%2C%20Bolivia!5e0!3m2!1ses!2sbo!4v1714504896941!5m2!1ses!2sbo" 
-            width="100%" 
-            height="400" 
-            style="border:0; border-radius: 12px;" 
-            allowfullscreen="" 
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-    </div>
-</section>
 
+    <!-- Sección de Ubicación -->
+    <section id="ubicacion">
+        <h2>¿Dónde estamos ubicados?</h2>
+        <p id="descripcion-ubicacion">Cargando...</p>
+        <div class="map-container" style="text-align: center;">
+            <iframe id="mapa-ubicacion"
+                width="100%" 
+                height="400" 
+                style="border:0; border-radius: 12px;" 
+                allowfullscreen="" 
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
 
     <!-- Sección Acerca de Nosotros -->
     <section id="about" class="about">
@@ -177,17 +198,13 @@
             </table>
             <p style="margin-top: 1.5rem; text-align: center;">Durante horarios fuera de atención, puedes contactarnos por WhatsApp y te responderemos lo antes posible.</p>
         </div>
-        
-        <!-- Marcas con las que trabajamos -->
-        <div class="brands">
-            <h3>Trabajamos con las Mejores Marcas</h3>
-            <p>Ofrecemos productos de las marcas líderes en tecnología gaming mundial</p>
-            <div class="brand-logos">
-                <img src="Imagenes/logitech-logo.png" alt="Logitech" class="brand-logo">
-                <img src="Imagenes/hyperx-logo.png" alt="HyperX" class="brand-logo">
-                <img src="Imagenes/blue-yeti-logo.png" alt="Blue Yeti" class="brand-logo">
-                <img src="Imagenes/glorious-logo.png" alt="Glorious PC Gaming" class="brand-logo">
-            </div>
+    </section>
+
+    <!-- Sección de Proveedores -->
+    <section id="proveedores">
+        <h2>Nuestros Proveedores</h2>
+        <div id="lista-proveedores" class="proveedores-container">
+            <p>Cargando proveedores...</p>
         </div>
     </section>
 
@@ -201,89 +218,5 @@
         </p>
         <p>&copy; 2025 Gamer SIS145 - Todos los derechos reservados.</p>
     </footer>
-
-    <script>
-        // Función para cargar productos
-        function cargarProductos(categoria = '') {
-            let url = 'index.php';
-            if (categoria) {
-                url += '?categoria=' + encodeURIComponent(categoria);
-            }
-    
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Error de red");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('container').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error al cargar productos:', error);
-                    document.getElementById('container').innerHTML = '<p>Hubo un error cargando los productos.</p>';
-                });
-        }
-    
-        // Variables globales del slider
-        let currentSlide = 0;
-        let slideInterval;
-        const slides = document.querySelectorAll('.slide');
-        const buttons = document.querySelectorAll('.slide-button');
-    
-        // Cargar productos al iniciar
-        document.addEventListener('DOMContentLoaded', function() {
-            cargarProductos();
-            startSlider();
-        });
-    
-        // Filtrar productos por categoría
-        document.getElementById('categoriaSelect').addEventListener('change', function() {
-            var categoriaSeleccionada = this.value;
-            cargarProductos(categoriaSeleccionada);
-        });
-        
-        // Funciones del slider
-        function startSlider() {
-            // Detener cualquier intervalo existente primero
-            stopSlider();
-            // Iniciar nuevo intervalo
-            slideInterval = setInterval(() => {
-                nextSlide();
-            }, 5000);
-        }
-    
-        function stopSlider() {
-            if (slideInterval) {
-                clearInterval(slideInterval);
-            }
-        }
-    
-        function nextSlide() {
-            goToSlide((currentSlide + 1) % slides.length);
-        }
-    
-        function prevSlide() {
-            goToSlide((currentSlide - 1 + slides.length) % slides.length);
-        }
-    
-        function goToSlide(index) {
-            // Detener el auto-avance temporalmente
-            stopSlider();
-            
-            // Cambiar slide actual
-            slides[currentSlide].classList.remove('active');
-            buttons[currentSlide].classList.remove('active');
-            
-            currentSlide = index;
-            
-            slides[currentSlide].classList.add('active');
-            buttons[currentSlide].classList.add('active');
-            
-            // Reiniciar el auto-avance después de 5 segundos
-            setTimeout(startSlider, 5000);
-        }
-    </script>
 </body>
 </html>

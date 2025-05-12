@@ -377,3 +377,36 @@ th {
         gap: 1rem;
     }
 }
+/* Contenedor de cada proveedor */
+.proveedor {
+    background-color: #1e1e1e;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo para las imágenes de los proveedores */
+.proveedor-logo {
+    max-width: 100px; /* Usar max-width en lugar de width */
+    max-height: 100px; /* Usar max-height en lugar de height */
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+/* Contenedor de todos los proveedores */
+.proveedores-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}

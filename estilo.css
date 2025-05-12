@@ -93,6 +93,40 @@ footer a:hover {
     color: #00ff00;
 }
 
+/* Contenedor de cada proveedor */
+.proveedor {
+    background-color: #1e1e1e;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo para las imágenes de los proveedores */
+.proveedor-logo {
+    max-width: 100px; /* Usar max-width en lugar de width */
+    max-height: 100px; /* Usar max-height en lugar de height */
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+/* Contenedor de todos los proveedores */
+.proveedores-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
 /* Acerca de */
 .about {
     background-color: #333;
@@ -178,7 +212,6 @@ th {
     transform: scale(2.1);
 }
 
-
 #inicio {
     position: relative;
     height: 80vh;
@@ -247,6 +280,7 @@ th {
     .header-logo {
         height: 30px;
     }
+
     .mensaje-flotante {
         position: fixed;
         top: 20px;
@@ -258,12 +292,12 @@ th {
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         z-index: 1000;
         animation: fadeInOut 3s ease-in-out;
-      }
+    }
       
-      @keyframes fadeInOut {
+    @keyframes fadeInOut {
         0% { opacity: 0; }
         10% { opacity: 1; }
         90% { opacity: 1; }
         100% { opacity: 0; }
-      }
+    }
 }

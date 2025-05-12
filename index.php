@@ -26,16 +26,31 @@ if ($resultado->num_rows > 0) {
         </tr>";
 
     while ($row = $resultado->fetch_assoc()) {
+        // Sanitize
+        $id    = (int)$row['id'];
+        $nombre= htmlspecialchars($row['nombre'], ENT_QUOTES);
+        $precio= number_format($row['precio'], 2, '.', '');
+        $img   = htmlspecialchars($row['imagen'], ENT_QUOTES);
+
         echo "<tr>
-            <td>{$row['id']}</td>
-            <td>{$row['nombre']}</td>
-            <td>{$row['descripcion']}</td>
-            <td>{$row['precio']}</td>
+            <td>{$id}</td>
+            <td>{$nombre}</td>
+            <td>" . htmlspecialchars($row['descripcion']) . "</td>
+            <td>\${$precio}</td>
             <td>{$row['stock']}</td>
-            <td>{$row['categoria']}</td>
+            <td>" . htmlspecialchars($row['categoria']) . "</td>
             <td>{$row['fecha_creacion']}</td>
-            <td><img src='Imagenes/{$row['imagen']}' alt='{$row['nombre']}' class='product-image'></td>
-            <td><a href='eliminarProducto.php?id={$row['id']}' class='button'>Eliminar</a></td>
+            <td><img src='Imagenes/{$img}' alt='{$nombre}' class='product-image'></td>
+            <td>
+                <!-- Botón Agregar al carrito -->
+                <button 
+                    class='agregarCarrito' 
+                    data-id='{$id}' 
+                    data-nombre='{$nombre}' 
+                    data-precio='{$precio}'>
+                  Añadir al carrito
+                </button>
+            </td>
           </tr>";
     }
 
