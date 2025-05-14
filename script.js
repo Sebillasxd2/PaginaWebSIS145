@@ -45,192 +45,148 @@ function goToSlide(index) {
     setTimeout(startSlider, 5000);
 }
 
-/// Funciones de la tienda
+
+// ——— TIENDA y PRODUCTOS ———
 async function cargarProductos(categoria = '') {
     try {
-        let url = 'index.php';
-        if (categoria) {
-            url += `?categoria=${encodeURIComponent(categoria)}`;
-        }
-
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
-        // Aquí cambiamos a text()
-        const html = await response.text();
-        const container = document.getElementById('container');
-        container.innerHTML = html;
-
-        // Re-asignar listeners de "Agregar al carrito" si tu HTML los incluye
-        container.querySelectorAll('.agregarCarrito').forEach(button =>
-            button.addEventListener('click', agregarAlCarrito)
-        );
-    } catch (error) {
-        console.error('Error al cargar productos:', error);
-        document.getElementById('container').innerHTML =
-            '<p>Hubo un error cargando los productos. Por favor intenta nuevamente.</p>';
+      let url = `getProductos.php${categoria ? '?categoria='+encodeURIComponent(categoria) : ''}`;
+      const resp = await fetch(url, { credentials: 'same-origin' });
+      if (!resp.ok) throw new Error(`Error HTTP ${resp.status}`);
+      const html = await resp.text();
+      document.getElementById('container').innerHTML = html;
+  
+      // Re-asignar listeners a los botones Agregar al carrito
+      document.querySelectorAll('.agregarCarrito').forEach(btn =>
+        btn.addEventListener('click', agregarAlCarrito)
+      );
+  
+    } catch (err) {
+      console.error(err);
+      document.getElementById('container').innerHTML =
+        '<p>Hubo un error cargando los productos.</p>';
     }
-}
-
-
-async function agregarAlCarrito(event) {
-    const button = event.currentTarget;
-    const productoId = button.getAttribute('data-id');
-    const productoNombre = button.getAttribute('data-nombre');
-    const productoPrecio = button.getAttribute('data-precio');
-
+  }
+  
+  async function agregarAlCarrito(e) {
+    const btn = e.currentTarget;
+    const payload = {
+      id_producto: btn.dataset.id,
+      nombre:      btn.dataset.nombre,
+      precio:      btn.dataset.precio
+    };
     try {
-        const response = await fetch('agregarCarrito.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id_producto: productoId,
-                nombre: productoNombre,
-                precio: productoPrecio
-            })
-        });
-
-        const data = await response.json();
-        
-        if (response.ok) {
-            mostrarNotificacion(`"${productoNombre}" agregado al carrito`);
-            cargarCarrito();
-        } else {
-            throw new Error(data.mensaje || 'Error al agregar al carrito');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        mostrarNotificacion(error.message, 'error');
+      const resp = await fetch('agregarCarrito.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.mensaje||'Error');
+      mostrarNotificacion(`"${payload.nombre}" agregado 🤘`);
+      cargarCarrito();
+    } catch (err) {
+      console.error(err);
+      mostrarNotificacion(err.message,'error');
     }
-}
-
-// Funciones del carrito
+  }
+// ——— CARRITO ———
 async function cargarCarrito() {
     try {
-        const response = await fetch('getCarrito.php');
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        const carritoTableBody = document.getElementById('contenido-carrito');
-        let total = 0;
-        
-        carritoTableBody.innerHTML = '';
-        
-        if (!data || data.length === 0) {
-            carritoTableBody.innerHTML = '<tr><td colspan="5">Tu carrito está vacío</td></tr>';
-            document.getElementById('total-amount').textContent = '0.00';
-            return;
-        }
-        
-        data.forEach(item => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${item.nombre_producto}</td>
-                <td>
-                    <button class="btn-cantidad" data-id="${item.id}" data-action="decrease">-</button>
-                    ${item.cantidad}
-                    <button class="btn-cantidad" data-id="${item.id}" data-action="increase">+</button>
-                </td>
-                <td>$${item.precio.toFixed(2)}</td>
-                <td>$${item.subtotal.toFixed(2)}</td>
-                <td><button class="btn-eliminar" data-id="${item.id}">Eliminar</button></td>
-            `;
-            carritoTableBody.appendChild(fila);
-            total += item.subtotal;
-        });
+      const resp = await fetch('getCarrito.php', { credentials:'same-origin' });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const items = await resp.json();
+      const tbody = document.getElementById('contenido-carrito');
+      let total = 0;
+      tbody.innerHTML = '';
+      if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="5">Tu carrito está vacío</td></tr>';
+        document.getElementById('total-amount').textContent = '0.00';
+        return;
+      }
+      items.forEach(i=>{
+        total += parseFloat(i.subtotal);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i.nombre_producto}</td>
+          <td>
+            <button class="btn-cantidad" data-id="${i.id}" data-action="decrease">-</button>
+            ${i.cantidad}
+            <button class="btn-cantidad" data-id="${i.id}" data-action="increase">+</button>
+          </td>
+          <td>$${parseFloat(i.precio).toFixed(2)}</td>
+          <td>$${parseFloat(i.subtotal).toFixed(2)}</td>
+          <td><button class="btn-eliminar" data-id="${i.id}">🗑️</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('total-amount').textContent = total.toFixed(2);
+  
 
-        document.getElementById('total-amount').textContent = total.toFixed(2);
-        
-        // Agregar event listeners a los botones de cantidad y eliminar
-        document.querySelectorAll('.btn-cantidad').forEach(button => {
-            button.addEventListener('click', actualizarCantidad);
-        });
-        
-        document.querySelectorAll('.btn-eliminar').forEach(button => {
-            button.addEventListener('click', eliminarDelCarrito);
-        });
-    } catch (error) {
-        console.error('Error al cargar el carrito:', error);
-        document.getElementById('contenido-carrito').innerHTML = 
-            '<tr><td colspan="5">Hubo un error cargando el carrito</td></tr>';
+document.querySelectorAll('.btn-cantidad').forEach(b =>
+    b.addEventListener('click', actualizarCantidad)
+  );
+  document.querySelectorAll('.btn-eliminar').forEach(b =>
+    b.addEventListener('click', eliminarDelCarrito)
+  );
+  
+  
+    } catch (err) {
+      console.error(err);
+      document.getElementById('contenido-carrito').innerHTML =
+        '<tr><td colspan="5">Error cargando carrito</td></tr>';
     }
-}
-
-async function actualizarCantidad(event) {
-    const button = event.currentTarget;
-    const productoId = button.getAttribute('data-id');
-    const action = button.getAttribute('data-action');
-    
+  }
+  
+  async function actualizarCantidad(e) {
+    const { id, action } = e.currentTarget.dataset;
     try {
-        const response = await fetch('actualizarCantidad.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: productoId,
-                action: action
-            })
-        });
-        
-        if (response.ok) {
-            cargarCarrito();
-        } else {
-            throw new Error('Error al actualizar la cantidad');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        mostrarNotificacion(error.message, 'error');
+      const resp = await fetch('actualizarCantidad.php', {
+        method: 'POST',
+        credentials:'same-origin',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ id, action })
+      });
+      if (!resp.ok) throw new Error('No se actualizó cantidad');
+      cargarCarrito();
+    } catch (err) {
+      console.error(err);
+      mostrarNotificacion(err.message,'error');
     }
-}
-
-async function eliminarDelCarrito(event) {
-    const button = event.currentTarget;
-    const productoId = button.getAttribute('data-id');
-    
+  }
+  
+  async function eliminarDelCarrito(e) {
+    const id = e.currentTarget.dataset.id;
     try {
-        const response = await fetch(`eliminarDelCarrito.php?id=${productoId}`, {
-            method: 'DELETE'
-        });
-        
-        if (response.ok) {
-            mostrarNotificacion('Producto eliminado del carrito');
-            cargarCarrito();
-        } else {
-            throw new Error('Error al eliminar el producto');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        mostrarNotificacion(error.message, 'error');
+      const resp = await fetch(`eliminarCarrito.php?id=${id}`, {
+        method:'DELETE',
+        credentials:'same-origin'
+      });
+      if (!resp.ok) throw new Error('No se eliminó');
+      mostrarNotificacion('Eliminado ✅');
+      cargarCarrito();
+    } catch (err) {
+      console.error(err);
+      mostrarNotificacion(err.message,'error');
     }
-}
-
-async function vaciarCarrito() {
+  }
+  
+  async function vaciarCarrito() {
+    if (!confirm('¿Vaciar carrito?')) return;
     try {
-        const confirmacion = confirm('¿Estás seguro de que quieres vaciar el carrito?');
-        if (!confirmacion) return;
-        
-        const response = await fetch('vaciarCarrito.php', {
-            method: 'DELETE'
-        });
-        
-        if (response.ok) {
-            mostrarNotificacion('Carrito vaciado correctamente');
-            cargarCarrito();
-        } else {
-            throw new Error('Error al vaciar el carrito');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        mostrarNotificacion(error.message, 'error');
+      const resp = await fetch('vaciarCarrito.php', {
+        method:'DELETE',
+        credentials:'same-origin'
+      });
+      if (!resp.ok) throw new Error('No se vació');
+      mostrarNotificacion('Carrito vaciado 🗑️');
+      cargarCarrito();
+    } catch (err) {
+      console.error(err);
+      mostrarNotificacion(err.message,'error');
     }
-}
-
+  }
+  
 // Funciones de proveedores
 async function cargarProveedores() {
     try {

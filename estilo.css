@@ -301,3 +301,19 @@ th {
         100% { opacity: 0; }
     }
 }
+#textareaUbicacion {
+    width: 500px;
+    height: 200px;
+    resize: vertical; /* permite redimensionar solo verticalmente si quieres */
+    padding: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+#urlUbicacion {
+    width: 500px;
+    height: 50px;
+    resize: vertical; /* permite redimensionar solo verticalmente si quieres */
+    padding: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}

@@ -1,17 +1,11 @@
 <?php
 session_start();
+include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre']);
     $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
     $rol = 'cliente'; // Fijo, no se muestra en el formulario
-
-    // Conexión a la base de datos
-    $conexion = new mysqli("localhost", "usuario_bd", "contraseña_bd", "mi_tienda");
-
-    if ($conexion->connect_error) {
-        die("Error de conexión: " . $conexion->connect_error);
-    }
 
     $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, contrasena, rol) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $nombre, $contrasena, $rol);
@@ -19,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         $_SESSION['mensaje'] = "Cuenta creada exitosamente. Ahora puedes iniciar sesión.";
         header("Location: login.php");
+        exit();
     } else {
         $_SESSION['error_creacion'] = "Error al crear la cuenta. Intenta nuevamente.";
     }

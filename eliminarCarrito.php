@@ -1,24 +1,27 @@
 <?php
 session_start();
+include 'conexion.php';
 
-if (!isset($_GET['id'])) {
-    http_response_code(400);
-    echo json_encode(["mensaje" => "ID de producto no proporcionado"]);
+if (!isset($_SESSION['cliente_id'])) {
+    http_response_code(401);
+    echo json_encode(["mensaje"=>"No autenticado"]);
     exit;
 }
 
-$id_producto = $_GET['id'];
-
-if (isset($_SESSION['carrito'])) {
-    foreach ($_SESSION['carrito'] as $key => $item) {
-        if ($item['id_producto'] == $id_producto) {
-            unset($_SESSION['carrito'][$key]);
-            echo json_encode(["mensaje" => "Producto eliminado del carrito"]);
-            exit;
-        }
-    }
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if (!$id) {
+    http_response_code(400);
+    echo json_encode(["mensaje"=>"ID no proporcionado"]);
+    exit;
 }
 
-http_response_code(404);
-echo json_encode(["mensaje" => "Producto no encontrado en el carrito"]);
-?>
+$stmt = $conexion->prepare("DELETE FROM carrito WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+if ($stmt->affected_rows) {
+    echo json_encode(["mensaje"=>"Eliminado correctamente"]);
+} else {
+    http_response_code(404);
+    echo json_encode(["mensaje"=>"Item no encontrado"]);
+}

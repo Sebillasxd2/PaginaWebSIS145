@@ -19,11 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "INSERT INTO productos (nombre, descripcion, precio, stock, categoria, imagen) 
                 VALUES ('$nombre', '$descripcion', '$precio', '$stock', '$categoria', '$imagen')";
 
-        if ($conexion->query($sql) === TRUE) {
-            echo "<p>Producto agregado con éxito.</p>";
-        } else {
-            echo "<p>Error al agregar el producto: " . $conexion->error . "</p>";
-        }
+if ($conexion->query($sql) === TRUE) {
+    header("Location: administracion.php");
+    exit();
+} else {
+    echo "<p>Error al agregar el producto: " . $conexion->error . "</p>";
+}
+
     } else {
         echo "<p>Error al subir la imagen.</p>";
     }
